@@ -85,13 +85,14 @@ MinimarketInventario/
 
 | Tecnología | Versión | Descripción |
 |-----------|---------|------------|
-| **Java** | 8+ | Lenguaje de programación |
-| **JSP** | 2.3+ | Vistas dinámicas |
-| **Servlet** | 4.0 | Controladores HTTP |
-| **MySQL** | 5.7+ | Base de datos relacional |
-| **JDBC** | - | Conector Java-MySQL |
+| **Java** | 8+ / 17 | Lenguaje de programación |
+| **JSP** | 3.0+ | Vistas dinámicas con Bootstrap 5 |
+| **Servlet** | 5.0 / 6.0 | Controladores HTTP (Jakarta EE) |
+| **MySQL** | 5.7+ / 8.x | Base de datos relacional |
+| **JDBC** | Connector/J 8.0.33 | Conector Java-MySQL |
 | **Tomcat** | 10.x | Servidor de aplicaciones |
-| **NetBeans** | 12+ | IDE de desarrollo |
+| **NetBeans** | 12+ / 25 | IDE de desarrollo (Ant Web App) |
+| **Seguridad** | SHA-256 | Cifrado seguro de contraseñas |
 
 ---
 
@@ -163,9 +164,9 @@ SHOW TABLES;
 ```
 
 **Datos de prueba disponibles:**
-- **Email:** admin@minimarket.com
-- **Contraseña:** admin123
-- **Rol:** Administrador
+- **Administrador:** `admin@minimarket.com` / `admin123` (Acceso total)
+- **Almacenero:** `almacen@minimarket.com` / `almacen123` (Gestión de inventario)
+- **Cajero:** `cajero@minimarket.com` / `cajero123` (Solo consulta)
 
 ### 3️⃣ Configuración en NetBeans
 
@@ -376,13 +377,14 @@ Gestión de conexión a MySQL.
 
 1. **Autenticación**
    - Validación de credenciales
-   - Contraseñas hasheadas (MD5)
-   - HttpSession para mantener sesión
+   - Contraseñas hasheadas con SHA-256 (64 caracteres hexadecimales)
+   - HttpSession para mantener sesión segura
+   - Protección contra inyección SQL mediante PreparedStatements
 
-2. **Autorización**
-   - Validación de sesión activa
-   - Roles diferenciados
-   - Acceso restringido por rol
+2. **Autorización (RBAC)**
+   - Validación de sesión activa en Servlets y vistas
+   - Roles diferenciados: Administrador, Almacenero y Cajero
+   - Restricción de operaciones en ProductoServlet según rol (Cajero en modo solo lectura)
 
 3. **Protección de datos**
    - PreparedStatement contra SQL Injection

@@ -1,0 +1,11 @@
+# NetBeans & Ant build directories
+build/
+dist/
+nbproject/private/
+
+# Temporary files
+*.class
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

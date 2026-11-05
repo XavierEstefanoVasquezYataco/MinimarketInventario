@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MinimarketInventario" default="dist" basedir=".">
+    <description>Compilación y empaquetado del Sistema de Inventario Minimarket La Esquina</description>
+    
+    <property file="nbproject/project.properties"/>
+    
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="web"/>
+    <property name="build.dir" value="build"/>
+    <property name="build.classes" value="${build.dir}/web/WEB-INF/classes"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="war.file" value="${dist.dir}/MinimarketInventario.war"/>
+
+    <path id="compile.classpath">
+        <fileset dir="${web.dir}/WEB-INF/lib" erroronmissingdir="false">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="lib" erroronmissingdir="false">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="clean" description="Limpia los directorios de compilación y distribución">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${build.classes}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile" depends="init" description="Compila los archivos fuentes Java">
+        <javac srcdir="${src.dir}" 
+               destdir="${build.classes}" 
+               encoding="UTF-8" 
+               includeantruntime="false" 
+               source="1.8" 
+               target="1.8"
+               debug="true">
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <target name="dist" depends="compile" description="Genera el archivo WAR para despliegue en Tomcat">
+        <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}">
+                <exclude name="WEB-INF/web.xml"/>
+            </fileset>
+            <classes dir="${build.classes}"/>
+        </war>
+        <echo message="✓ WAR generado con éxito en: ${war.file}"/>
+    </target>
+
+    <target name="default" depends="dist"/>
+</project>
